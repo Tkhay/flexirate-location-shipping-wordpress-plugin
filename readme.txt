@@ -154,8 +154,10 @@ Initial release of WC Shipping Rate Engine. Install to start using custom locati
 The plugin stores delivery area selections in WooCommerce sessions and includes AJAX handlers for real-time updates. Custom rules are stored per shipping method instance, allowing for flexible multi-zone configurations.
 
 = Support =
+For support, feature requests, or bug reports:
 
-For support, feature requests, or bug reports, please visit [https://www.tiekuasare.com/](https://www.tiekuasare.com/)
+Email: hello@tiekuasare.com
+Website: https://www.tiekuasare.com/
 
 = Privacy Policy =
 

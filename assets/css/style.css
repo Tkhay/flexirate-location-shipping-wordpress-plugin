@@ -1,6 +1,7 @@
 /* =========================================
-   1. TRIGGER BUTTON AREA
-   ========================================= */
+ * 1. TRIGGER BUTTON AREA
+ * ========================================= */
+
 .wcsre-location-selector-wrap {
   margin-top: 15px;
   padding: 15px;
@@ -14,7 +15,7 @@
 
 #wcsre-open-modal {
   background-color: #111827; /* Dark / Almost Black */
-  color: #ffffff;
+  color: #fff;
   font-weight: 600;
   font-size: 14px;
   padding: 10px 18px;
@@ -42,8 +43,9 @@
 }
 
 /* =========================================
-   2. MODAL OVERLAY (BACKDROP)
-   ========================================= */
+ * 2. MODAL OVERLAY (BACKDROP)
+ * ========================================= */
+
 #wcsre-modal {
   display: none; /* Hidden by default */
   position: fixed;
@@ -62,10 +64,11 @@
 }
 
 /* =========================================
-   3. MODAL CARD
-   ========================================= */
+ * 3. MODAL CARD
+ * ========================================= */
+
 .wcsre-modal-content {
-  background-color: #ffffff;
+  background-color: #fff;
   width: 100%;
   max-width: 440px; /* Optimal width for readability */
   max-height: 85vh; /* Never taller than 85% of screen */
@@ -91,8 +94,9 @@
 }
 
 /* =========================================
-   4. MODAL HEADER
-   ========================================= */
+ * 4. MODAL HEADER
+ * ========================================= */
+
 .wcsre-modal-header {
   padding: 16px 20px;
   background-color: #fff;
@@ -109,8 +113,9 @@
 }
 
 /* =========================================
-   5. MODAL BODY (SCROLLABLE LIST)
-   ========================================= */
+ * 5. MODAL BODY (SCROLLABLE LIST)
+ * ========================================= */
+
 .wcsre-modal-body {
   overflow-y: auto; /* Allows scrolling inside the list only */
   padding: 0;
@@ -169,8 +174,9 @@
 }
 
 /* =========================================
-   6. MODAL FOOTER (STICKY BOTTOM)
-   ========================================= */
+ * 6. MODAL FOOTER (STICKY BOTTOM)
+ * ========================================= */
+
 .wcsre-modal-footer {
   padding: 16px 20px;
   background-color: #fff;
@@ -182,7 +188,7 @@
 }
 
 #wcsre-close-modal {
-  background-color: white;
+  background-color: #fff;
   color: #374151;
   border: 1px solid #d1d5db;
   padding: 8px 16px;
@@ -200,7 +206,7 @@
 
 #wcsre-confirm-selection {
   background-color: #111827;
-  color: white;
+  color: #fff;
   border: none;
   padding: 8px 20px;
   border-radius: 6px;
@@ -212,7 +218,7 @@
 }
 
 #wcsre-confirm-selection:hover {
-  background-color: #000000;
+  background-color: #000;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }

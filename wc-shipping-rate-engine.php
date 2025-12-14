@@ -48,19 +48,25 @@ add_filter('woocommerce_shipping_methods', 'wcsre_add_custom_shipping_method');
 // =================================================================
 function wcsre_enqueue_scripts()
 {
-    if (! is_checkout()) return;
+    if (! is_checkout()) {
+        return;
+    }
 
     // CSS
-    wp_enqueue_style('wcsre-style', WCSRE_PLUGIN_URL . 'assets/css/style.css', [], '1.1.5');
+    wp_enqueue_style('wcsre-style', WCSRE_PLUGIN_URL . 'assets/css/style.css', array(), '1.1.5');
 
     // JS
-    wp_enqueue_script('wcsre-script', WCSRE_PLUGIN_URL . 'assets/js/script.js', ['jquery'], '1.1.5', true);
+    wp_enqueue_script('wcsre-script', WCSRE_PLUGIN_URL . 'assets/js/script.js', array('jquery'), '1.1.5', true);
 
     // Pass PHP data to JS
-    wp_localize_script('wcsre-script', 'wcsre_params', array(
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce'    => wp_create_nonce('wcsre_nonce'),
-    ));
+    wp_localize_script(
+        'wcsre-script',
+        'wcsre_params',
+        array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce('wcsre_nonce'),
+        )
+    );
 }
 add_action('wp_enqueue_scripts', 'wcsre_enqueue_scripts');
 
@@ -71,9 +77,9 @@ function wcsre_admin_scripts()
 {
     // Check if we are on WooCommerce Settings -> Shipping Tab
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce not needed for simple screen context check.
-    if (isset($_GET['page']) && $_GET['page'] === 'wc-settings' && isset($_GET['tab']) && $_GET['tab'] === 'shipping') {
-        wp_enqueue_style('wcsre-admin-style', WCSRE_PLUGIN_URL . 'assets/css/admin.css', [], '1.1.5');
-        wp_enqueue_script('wcsre-admin-script', WCSRE_PLUGIN_URL . 'assets/js/admin.js', ['jquery'], '1.1.5', true);
+    if (isset($_GET['page']) && 'wc-settings' === $_GET['page'] && isset($_GET['tab']) && 'shipping' === $_GET['tab']) {
+        wp_enqueue_style('wcsre-admin-style', WCSRE_PLUGIN_URL . 'assets/css/admin.css', array(), '1.1.5');
+        wp_enqueue_script('wcsre-admin-script', WCSRE_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), '1.1.5', true);
     }
 }
 add_action('admin_enqueue_scripts', 'wcsre_admin_scripts');
@@ -112,11 +118,15 @@ add_action('wp_ajax_nopriv_wcsre_update_session', 'wcsre_handle_session_update')
 // =================================================================
 function wcsre_clear_shipping_cache()
 {
-    if (! WC()->cart) return;
+    if (! WC()->cart) {
+        return;
+    }
     $packages = WC()->cart->get_shipping_packages();
     foreach ($packages as $key => $package) {
         $shipping_session_key = 'shipping_for_package_' . $key;
-        if (WC()->session) WC()->session->__unset($shipping_session_key);
+        if (WC()->session) {
+            WC()->session->__unset($shipping_session_key);
+        }
     }
 }
 add_action('woocommerce_checkout_update_order_review', 'wcsre_clear_shipping_cache', 1);
@@ -132,12 +142,16 @@ function wcsre_get_first_active_instance_id()
     $shipping_zones = WC_Shipping_Zones::get_zones();
     foreach ($shipping_zones as $zone_id => $zone_data) {
         foreach ($zone_data['shipping_methods'] as $method) {
-            if ($method->id === 'wc_rate_engine' && $method->instance_id > 0) return $method->instance_id;
+            if ('wc_rate_engine' === $method->id && $method->instance_id > 0) {
+                return $method->instance_id;
+            }
         }
     }
     $default_zone = new WC_Shipping_Zone(0);
     foreach ($default_zone->get_shipping_methods() as $method) {
-        if ($method->id === 'wc_rate_engine' && $method->instance_id > 0) return $method->instance_id;
+        if ('wc_rate_engine' === $method->id && $method->instance_id > 0) {
+            return $method->instance_id;
+        }
     }
     return 0;
 }
@@ -147,17 +161,23 @@ function wcsre_get_first_active_instance_id()
 // =================================================================
 function wcsre_add_location_selector_ui()
 {
-    if (! is_checkout() || is_wc_endpoint_url()) return;
+    if (! is_checkout() || is_wc_endpoint_url()) {
+        return;
+    }
     $instance_id = wcsre_get_first_active_instance_id();
-    if (! $instance_id) return;
+    if (! $instance_id) {
+        return;
+    }
 
-    if (!class_exists('WCSRE_Shipping_Rate_Engine')) require_once 'class-wc-shipping-rate-engine.php';
+    if (! class_exists('WCSRE_Shipping_Rate_Engine')) {
+        require_once 'class-wc-shipping-rate-engine.php';
+    }
 
     $shipping_method = new WCSRE_Shipping_Rate_Engine($instance_id);
-    $custom_key = 'wcsre_custom_rules_' . $instance_id;
+    $custom_key     = 'wcsre_custom_rules_' . $instance_id;
     $location_rules = get_option($custom_key, array());
 
-    $selected_slug = WC()->session->get('wcsre_selected_location') ?? '';
+    $selected_slug  = WC()->session->get('wcsre_selected_location') ?? '';
     $selected_label = '';
 
     if ($selected_slug) {
@@ -173,7 +193,7 @@ function wcsre_add_location_selector_ui()
         <td colspan="2">
             <div class="wcsre-location-selector-wrap">
                 <label style="font-weight: bold; display: block; margin-bottom: 5px; color: #374151;">
-                    <?php esc_html_e('Delivery Area Selection', 'wc-shipping-rate-engine'); ?> <span style="color:red;">*</span>
+                    <?php esc_html_e('Delivery Area Selection', 'wc-shipping-rate-engine'); ?> <span style="color: red;">*</span>
                 </label>
                 <input type="hidden" id="wcsre_selected_location" name="wcsre_selected_location" value="<?php echo esc_attr($selected_slug); ?>" />
                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -198,10 +218,14 @@ add_action('woocommerce_review_order_after_shipping', 'wcsre_add_location_select
 function wcsre_output_location_modal()
 {
     $instance_id = wcsre_get_first_active_instance_id();
-    if (! $instance_id) return;
-    $custom_key = 'wcsre_custom_rules_' . $instance_id;
+    if (! $instance_id) {
+        return;
+    }
+    $custom_key     = 'wcsre_custom_rules_' . $instance_id;
     $location_rules = get_option($custom_key, array());
-    if (!class_exists('WCSRE_Shipping_Rate_Engine')) require_once 'class-wc-shipping-rate-engine.php';
+    if (! class_exists('WCSRE_Shipping_Rate_Engine')) {
+        require_once 'class-wc-shipping-rate-engine.php';
+    }
     $shipping_method = new WCSRE_Shipping_Rate_Engine($instance_id);
 ?>
     <div id="wcsre-modal">
@@ -212,8 +236,8 @@ function wcsre_output_location_modal()
             <div class="wcsre-modal-body">
                 <?php if ($location_rules) : foreach ($location_rules as $rule) :
                         $label = sanitize_text_field($rule['location']);
-                        $slug = method_exists($shipping_method, 'generate_location_slug') ? $shipping_method->generate_location_slug($label) : '';
-                        $cost = wc_price(floatval($rule['cost']));
+                        $slug  = method_exists($shipping_method, 'generate_location_slug') ? $shipping_method->generate_location_slug($label) : '';
+                        $cost  = wc_price(floatval($rule['cost']));
                 ?>
                         <label class="wcsre-radio-label">
                             <span style="display: flex; align-items: center;">
@@ -245,13 +269,15 @@ function wcsre_validate_delivery_selection()
     $is_our_method  = false;
     if (! empty($chosen_methods)) {
         foreach ($chosen_methods as $method) {
-            if (strpos($method, 'wc_rate_engine') !== false) {
+            if (false !== strpos($method, 'wc_rate_engine')) {
                 $is_our_method = true;
                 break;
             }
         }
     }
-    if (! $is_our_method) return;
+    if (! $is_our_method) {
+        return;
+    }
 
     // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Hooked into woocommerce_checkout_process, which handles the nonce check.
     $posted_location = isset($_POST['wcsre_selected_location']) ? sanitize_text_field(wp_unslash($_POST['wcsre_selected_location'])) : '';
