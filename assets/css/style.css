@@ -1,136 +1,218 @@
-/* Container styling */
+/* =========================================
+   1. TRIGGER BUTTON AREA
+   ========================================= */
 .wcsre-location-selector-wrap {
   margin-top: 15px;
   padding: 15px;
-  background-color: #f9fafb;
+  background-color: #f9fafb; /* Light Gray Background */
   border: 1px solid #e5e7eb;
-  border-radius: 6px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* Button styling */
 #wcsre-open-modal {
-  background-color: #111827;
+  background-color: #111827; /* Dark / Almost Black */
   color: #ffffff;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition: background 0.2s;
-}
-#wcsre-open-modal:hover {
-  background-color: #374151;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* Modal Overlay */
+#wcsre-open-modal:hover {
+  background-color: #374151;
+  transform: translateY(-1px);
+}
+
+#wcsre-selected-display {
+  font-size: 14px;
+  font-weight: 600;
+  color: #059669; /* Emerald Green */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =========================================
+   2. MODAL OVERLAY (BACKDROP)
+   ========================================= */
 #wcsre-modal {
-  display: none;
+  display: none; /* Hidden by default */
   position: fixed;
-  z-index: 99999;
+  z-index: 999999; /* Always on top */
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+  backdrop-filter: blur(4px); /* Modern blur effect */
+
+  /* Flexbox Centering - The Secret to good scaling */
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-/* Modal Content */
+/* =========================================
+   3. MODAL CARD
+   ========================================= */
 .wcsre-modal-content {
-  background-color: #fefefe;
-  margin: 5% auto; /* Moved up slightly */
-  width: 90%;
-  max-width: 500px;
-  border-radius: 8px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  animation: wcsreFadeIn 0.3s;
-  overflow: hidden;
-  font-family: inherit;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 440px; /* Optimal width for readability */
+  max-height: 85vh; /* Never taller than 85% of screen */
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column; /* Stack Header -> Body -> Footer */
+  overflow: hidden; /* Clips corners */
+  animation: wcsreSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
 }
 
-@keyframes wcsreFadeIn {
+@keyframes wcsreSlideUp {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(20px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Header */
+/* =========================================
+   4. MODAL HEADER
+   ========================================= */
 .wcsre-modal-header {
-  padding: 12px 16px; /* Reduced padding */
-  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 20px;
   background-color: #fff;
+  border-bottom: 1px solid #f3f4f6;
+  flex-shrink: 0; /* Prevents header from shrinking */
 }
+
 .wcsre-modal-header h3 {
   margin: 0;
-  font-size: 16px; /* Slightly smaller font */
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: #111827;
+  line-height: 1.2;
 }
 
-/* Body (List) */
+/* =========================================
+   5. MODAL BODY (SCROLLABLE LIST)
+   ========================================= */
 .wcsre-modal-body {
-  max-height: 50vh;
-  overflow-y: auto;
+  overflow-y: auto; /* Allows scrolling inside the list only */
+  padding: 0;
+  background-color: #fff;
+  -webkit-overflow-scrolling: touch; /* Smooth scroll on mobile */
 }
 
-/* List Items - FIXED SPACING */
+/* Custom Scrollbar */
+.wcsre-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.wcsre-modal-body::-webkit-scrollbar-thumb {
+  background-color: #e5e7eb;
+  border-radius: 4px;
+}
+
+/* List Item Styling */
 .wcsre-radio-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px; /* Tightened vertical padding */
-  border-bottom: 1px solid #f3f4f6;
+  padding: 12px 20px; /* Compact padding */
+  border-bottom: 1px solid #f9fafb;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background-color 0.15s ease;
   margin: 0 !important;
   width: 100%;
+  box-sizing: border-box;
 }
+
+.wcsre-radio-label:last-child {
+  border-bottom: none;
+}
+
 .wcsre-radio-label:hover {
-  background-color: #f3f4f6;
+  background-color: #f8fafc; /* Very subtle hover grey */
 }
+
+/* The Radio Circle */
 .wcsre-radio-label input[type="radio"] {
-  margin-right: 10px;
+  margin-right: 12px;
+  accent-color: #111827; /* Modern browser support */
+  transform: scale(1.1);
+  cursor: pointer;
 }
+
+/* Price Badge */
 .wcsre-price-badge {
   background-color: #f3f4f6;
   color: #374151;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 999px; /* Pill shape */
   font-size: 12px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
-/* Footer */
+/* =========================================
+   6. MODAL FOOTER (STICKY BOTTOM)
+   ========================================= */
 .wcsre-modal-footer {
-  padding: 12px 16px; /* Reduced padding */
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-  text-align: right;
+  padding: 16px 20px;
+  background-color: #fff;
+  border-top: 1px solid #f3f4f6;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 12px;
+  flex-shrink: 0; /* Prevents footer from shrinking */
 }
+
+#wcsre-close-modal {
+  background-color: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#wcsre-close-modal:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
 #wcsre-confirm-selection {
   background-color: #111827;
   color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 8px 20px;
+  border-radius: 6px;
   font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
 }
-#wcsre-close-modal {
-  background-color: #fff;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
+
+#wcsre-confirm-selection:hover {
+  background-color: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }

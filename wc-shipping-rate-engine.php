@@ -2,16 +2,15 @@
 
 /**
  * Plugin Name:       WC Shipping Rate Engine
- * Plugin URI:        https://example.com/
  * Description:       Custom shipping zones and calculates rates based on the customer's selected City/Town name via a checkout modal.
- * Version:           1.1.5
+ * Version:           1.0.0
  * Author:            Tieku Asare
  * Author URI:        https://www.tiekuasare.com/
  * Text Domain:       wc-shipping-rate-engine
  * Domain Path:       /languages
  * License:           GPL-2.0-or-later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
- * Requires at least: 6.8
+ * Requires at least: 6.9
  * Requires PHP:      7.4
  * WC requires at least: 9.0
  * WC tested up to:   10.4.2
@@ -70,14 +69,13 @@ add_action('wp_enqueue_scripts', 'wcsre_enqueue_scripts');
 // =================================================================
 function wcsre_admin_scripts()
 {
-    // Only load on shipping settings page
-    if (isset($_GET['page'], $_GET['section']) && $_GET['page'] === 'wc-settings' && $_GET['section'] === 'wc_rate_engine') {
+    // Check if we are on WooCommerce Settings -> Shipping Tab
+    if (isset($_GET['page']) && $_GET['page'] === 'wc-settings' && isset($_GET['tab']) && $_GET['tab'] === 'shipping') {
         wp_enqueue_style('wcsre-admin-style', WCSRE_PLUGIN_URL . 'assets/css/admin.css', [], '1.1.5');
         wp_enqueue_script('wcsre-admin-script', WCSRE_PLUGIN_URL . 'assets/js/admin.js', ['jquery'], '1.1.5', true);
     }
 }
 add_action('admin_enqueue_scripts', 'wcsre_admin_scripts');
-
 // =================================================================
 // 5. AJAX HANDLER
 // =================================================================
@@ -167,12 +165,12 @@ function wcsre_add_location_selector_ui()
         <td colspan="2">
             <div class="wcsre-location-selector-wrap">
                 <label style="font-weight: bold; display: block; margin-bottom: 5px; color: #374151;">
-                    <?php _e('Delivery Area Selection', 'wc-shipping-rate-engine'); ?> <span style="color:red;">*</span>
+                    <?php esc_html_e('Delivery Area Selection', 'wc-shipping-rate-engine'); ?> <span style="color:red;">*</span>
                 </label>
                 <input type="hidden" id="wcsre_selected_location" name="wcsre_selected_location" value="<?php echo esc_attr($selected_slug); ?>" />
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <button type="button" id="wcsre-open-modal">
-                        <?php echo $selected_label ? esc_html($selected_label) : __('Select Your Area', 'wc-shipping-rate-engine'); ?>
+                        <?php echo $selected_label ? esc_html($selected_label) : esc_html__('Select Your Area', 'wc-shipping-rate-engine'); ?>
                     </button>
                     <?php if ($selected_label) : ?>
                         <span id="wcsre-selected-display" style="font-size: 14px; font-weight: 600; color: #047857;">✓ <?php echo esc_html($selected_label); ?></span>
@@ -201,7 +199,7 @@ function wcsre_output_location_modal()
     <div id="wcsre-modal">
         <div class="wcsre-modal-content">
             <div class="wcsre-modal-header">
-                <h3><?php _e('Select Your Delivery Area', 'wc-shipping-rate-engine'); ?></h3>
+                <h3><?php esc_html_e('Select Your Delivery Area', 'wc-shipping-rate-engine'); ?></h3>
             </div>
             <div class="wcsre-modal-body">
                 <?php if ($location_rules) : foreach ($location_rules as $rule) :
@@ -218,12 +216,12 @@ function wcsre_output_location_modal()
                         </label>
                     <?php endforeach;
                 else : ?>
-                    <div style="padding: 20px; text-align: center; color: #6b7280;"><?php _e('No locations configured.', 'wc-shipping-rate-engine'); ?></div>
+                    <div style="padding: 20px; text-align: center; color: #6b7280;"><?php esc_html_e('No locations configured.', 'wc-shipping-rate-engine'); ?></div>
                 <?php endif; ?>
             </div>
             <div class="wcsre-modal-footer">
-                <button type="button" id="wcsre-close-modal"><?php _e('Cancel', 'wc-shipping-rate-engine'); ?></button>
-                <button type="button" id="wcsre-confirm-selection"><?php _e('Confirm Selection', 'wc-shipping-rate-engine'); ?></button>
+                <button type="button" id="wcsre-close-modal"><?php esc_html_e('Cancel', 'wc-shipping-rate-engine'); ?></button>
+                <button type="button" id="wcsre-confirm-selection"><?php esc_html_e('Confirm Selection', 'wc-shipping-rate-engine'); ?></button>
             </div>
         </div>
     </div>

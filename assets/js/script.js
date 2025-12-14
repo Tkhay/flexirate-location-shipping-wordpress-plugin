@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
         'input[name="wcsre_location_select"][value="' + current_slug + '"]'
       ).prop("checked", true);
     }
-    $("#wcsre-modal").fadeIn(200);
+    $("#wcsre-modal").css("display", "flex").hide().fadeIn(200);
   });
 
   // CLOSE MODAL
