@@ -36,7 +36,7 @@ if (! class_exists('WCSRE_Shipping_Rate_Engine')) {
                 'enabled' => array('title' => 'Enable/Disable', 'type' => 'checkbox', 'label' => 'Enable', 'default' => 'yes'),
                 'title' => array('title' => 'Title', 'type' => 'text', 'default' => 'Custom Shipping Rate'),
                 'default_cost' => array('title' => 'Default Cost', 'type' => 'price', 'default' => '66.00'),
-                'custom_rules' => array('title' => 'Areas', 'type' => 'title'),
+                'custom_rules' => array('title' => 'Delivery Areas', 'type' => 'title', 'description' => 'Manage your locations and their costs below.'),
             );
         }
 
@@ -53,31 +53,26 @@ if (! class_exists('WCSRE_Shipping_Rate_Engine')) {
                 <th scope="row" class="titledesc"><?php echo esc_html($data['title']); ?></th>
                 <td class="forminp">
                     <table class="widefat" id="wcsre_rules_table">
+                        <thead>
+                            <tr>
+                                <th style="width: 60%;"><?php esc_html_e('Location Name', 'wc-shipping-rate-engine'); ?></th>
+                                <th style="width: 30%;"><?php esc_html_e('Price (GH₵)', 'wc-shipping-rate-engine'); ?></th>
+                                <th style="width: 10%;"></th>
+                            </tr>
+                        </thead>
                         <tbody class="wcsre-rules-body">
                             <?php
                             $rules_to_show = (!empty($saved_rules)) ? $saved_rules : array(array('location' => '', 'cost' => ''));
                             foreach ($rules_to_show as $rule) : ?>
                                 <tr class="wcsre_rule">
-                                    <td><input type="text" name="<?php echo esc_attr($field_key); ?>[location][]" value="<?php echo esc_attr($rule['location']); ?>" placeholder="Area Name" /></td>
+                                    <td><input type="text" name="<?php echo esc_attr($field_key); ?>[location][]" value="<?php echo esc_attr($rule['location']); ?>" placeholder="e.g. Spintex" /></td>
                                     <td><input type="number" name="<?php echo esc_attr($field_key); ?>[cost][]" value="<?php echo esc_attr($rule['cost']); ?>" placeholder="0.00" step="0.01" /></td>
-                                    <td><a href="#" class="wcsre-remove-rule" style="color:red;">&times;</a></td>
+                                    <td><a href="#" class="wcsre-remove-rule">&times;</a></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    <button class="button wcsre_add_rule_button">Add Area</button>
-                    <script>
-                        jQuery(document).ready(function($) {
-                            $('.wcsre_add_rule_button').click(function(e) {
-                                e.preventDefault();
-                                $('.wcsre-rules-body').append('<tr class="wcsre_rule"><td><input type="text" name="<?php echo esc_attr($field_key); ?>[location][]" placeholder="Area Name" /></td><td><input type="number" name="<?php echo esc_attr($field_key); ?>[cost][]" placeholder="0.00" step="0.01" /></td><td><a href="#" class="wcsre-remove-rule" style="color:red;">&times;</a></td></tr>');
-                            });
-                            $(document).on('click', '.wcsre-remove-rule', function(e) {
-                                e.preventDefault();
-                                $(this).closest('tr').remove();
-                            });
-                        });
-                    </script>
+                    <button class="button button-secondary wcsre_add_rule_button">Add New Area</button>
                 </td>
             </tr>
 <?php return ob_get_clean();

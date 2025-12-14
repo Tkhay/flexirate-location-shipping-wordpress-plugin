@@ -1,0 +1,30 @@
+#wcsre_rules_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+#wcsre_rules_table th {
+  text-align: left;
+  padding: 10px;
+  background: #f0f0f1;
+  border-bottom: 1px solid #ccc;
+}
+#wcsre_rules_table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+.wcsre_rule input[type="text"],
+.wcsre_rule input[type="number"] {
+  width: 100%;
+  max-width: 300px;
+}
+.wcsre-remove-rule {
+  color: #dc3232;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+}
+.wcsre-remove-rule:hover {
+  color: #a00;
+}
