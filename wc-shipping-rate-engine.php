@@ -53,10 +53,10 @@ function wcsre_enqueue_scripts()
     }
 
     // CSS
-    wp_enqueue_style('wcsre-style', WCSRE_PLUGIN_URL . 'assets/css/style.css', array(), '1.1.5');
+    wp_enqueue_style('wcsre-style', WCSRE_PLUGIN_URL . 'assets/css/style.css', array(), '1.0.0');
 
     // JS
-    wp_enqueue_script('wcsre-script', WCSRE_PLUGIN_URL . 'assets/js/script.js', array('jquery'), '1.1.5', true);
+    wp_enqueue_script('wcsre-script', WCSRE_PLUGIN_URL . 'assets/js/script.js', array('jquery'), '1.0.0', true);
 
     // Pass PHP data to JS
     wp_localize_script(
@@ -78,8 +78,8 @@ function wcsre_admin_scripts()
     // Check if we are on WooCommerce Settings -> Shipping Tab
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce not needed for simple screen context check.
     if (isset($_GET['page']) && 'wc-settings' === $_GET['page'] && isset($_GET['tab']) && 'shipping' === $_GET['tab']) {
-        wp_enqueue_style('wcsre-admin-style', WCSRE_PLUGIN_URL . 'assets/css/admin.css', array(), '1.1.5');
-        wp_enqueue_script('wcsre-admin-script', WCSRE_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), '1.1.5', true);
+        wp_enqueue_style('wcsre-admin-style', WCSRE_PLUGIN_URL . 'assets/css/admin.css', array(), '1.0.0');
+        wp_enqueue_script('wcsre-admin-script', WCSRE_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), '1.0.0', true);
     }
 }
 add_action('admin_enqueue_scripts', 'wcsre_admin_scripts');
@@ -205,7 +205,7 @@ function wcsre_add_location_selector_ui()
                     <?php endif; ?>
                 </div>
             </div>
-            <?php wcsre_output_location_modal(); ?>
+            <?php // Modal moved to footer ?>
         </td>
     </tr>
 <?php
@@ -217,6 +217,9 @@ add_action('woocommerce_review_order_after_shipping', 'wcsre_add_location_select
 // =================================================================
 function wcsre_output_location_modal()
 {
+    if (! is_checkout()) {
+        return;
+    }
     $instance_id = wcsre_get_first_active_instance_id();
     if (! $instance_id) {
         return;
@@ -259,6 +262,7 @@ function wcsre_output_location_modal()
     </div>
 <?php
 }
+add_action('wp_footer', 'wcsre_output_location_modal');
 
 // =================================================================
 // 10. VALIDATION

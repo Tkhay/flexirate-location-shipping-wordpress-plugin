@@ -3,43 +3,46 @@
  * ========================================= */
 
 .wcsre-location-selector-wrap {
-  margin-top: 15px;
-  padding: 15px;
-  background-color: #f9fafb; /* Light Gray Background */
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-top: 15px;
+  padding: 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  /* Light Gray Background */
 }
 
 #wcsre-open-modal {
-  background-color: #111827; /* Dark / Almost Black */
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 10px 18px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #111827;
+  /* Dark / Almost Black */
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 #wcsre-open-modal:hover {
-  background-color: #374151;
   transform: translateY(-1px);
+  background-color: #374151;
 }
 
 #wcsre-selected-display {
-  font-size: 14px;
-  font-weight: 600;
-  color: #059669; /* Emerald Green */
   display: flex;
   align-items: center;
   gap: 4px;
+  color: #059669;
+  /* Emerald Green */
+  font-size: 14px;
+  font-weight: 600;
 }
 
 /* =========================================
@@ -47,20 +50,27 @@
  * ========================================= */
 
 #wcsre-modal {
-  display: none; /* Hidden by default */
-  position: fixed;
-  z-index: 999999; /* Always on top */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
-  backdrop-filter: blur(4px); /* Modern blur effect */
-
-  /* Flexbox Centering - The Secret to good scaling */
+  display: none;
+  /* Hidden by default */
   align-items: center;
   justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999999;
+  /* Always on top */
+  width: 100%;
+  height: 100%;
   padding: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Darker overlay */
+  backdrop-filter: blur(4px);
+  /* Modern blur effect */
+}
+
+/* Hardening: Reset Box Sizing */
+#wcsre-modal * {
+  box-sizing: border-box;
 }
 
 /* =========================================
@@ -68,28 +78,37 @@
  * ========================================= */
 
 .wcsre-modal-content {
-  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  /* Stack Header -> Body -> Footer */
+  position: relative;
   width: 100%;
-  max-width: 440px; /* Optimal width for readability */
-  max-height: 85vh; /* Never taller than 85% of screen */
+  max-width: 440px;
+  /* Optimal width for readability */
+  max-height: 80vh;
+  /* Never taller than 80% of screen */
+  overflow: hidden;
+  /* Clips corners */
   border-radius: 12px;
+  background-color: #fff;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  display: flex;
-  flex-direction: column; /* Stack Header -> Body -> Footer */
-  overflow: hidden; /* Clips corners */
+  color: #374151;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
   animation: wcsreSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
 }
 
 @keyframes wcsreSlideUp {
   from {
-    opacity: 0;
     transform: translateY(20px) scale(0.98);
+    opacity: 0;
   }
+
   to {
-    opacity: 1;
     transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }
 
@@ -98,18 +117,22 @@
  * ========================================= */
 
 .wcsre-modal-header {
+  flex-shrink: 0;
+  /* Prevents header from shrinking */
   padding: 16px 20px;
-  background-color: #fff;
   border-bottom: 1px solid #f3f4f6;
-  flex-shrink: 0; /* Prevents header from shrinking */
+  background-color: #fff;
 }
 
 .wcsre-modal-header h3 {
   margin: 0;
+  padding: 0;
+  color: #111827;
   font-size: 18px;
   font-weight: 700;
-  color: #111827;
   line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 /* =========================================
@@ -117,33 +140,36 @@
  * ========================================= */
 
 .wcsre-modal-body {
-  overflow-y: auto; /* Allows scrolling inside the list only */
+  overflow-y: auto;
+  /* Allows scrolling inside the list only */
   padding: 0;
   background-color: #fff;
-  -webkit-overflow-scrolling: touch; /* Smooth scroll on mobile */
+  -webkit-overflow-scrolling: touch;
+  /* Smooth scroll on mobile */
 }
 
 /* Custom Scrollbar */
 .wcsre-modal-body::-webkit-scrollbar {
   width: 6px;
 }
+
 .wcsre-modal-body::-webkit-scrollbar-thumb {
-  background-color: #e5e7eb;
   border-radius: 4px;
+  background-color: #e5e7eb;
 }
 
 /* List Item Styling */
 .wcsre-radio-label {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 12px 20px; /* Compact padding */
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 !important;
+  padding: 12px 20px;
+  /* Compact padding */
   border-bottom: 1px solid #f9fafb;
   cursor: pointer;
   transition: background-color 0.15s ease;
-  margin: 0 !important;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .wcsre-radio-label:last-child {
@@ -151,23 +177,26 @@
 }
 
 .wcsre-radio-label:hover {
-  background-color: #f8fafc; /* Very subtle hover grey */
+  background-color: #f8fafc;
+  /* Very subtle hover grey */
 }
 
 /* The Radio Circle */
 .wcsre-radio-label input[type="radio"] {
-  margin-right: 12px;
-  accent-color: #111827; /* Modern browser support */
   transform: scale(1.1);
+  margin-right: 12px;
   cursor: pointer;
+  accent-color: #111827;
+  /* Modern browser support */
 }
 
 /* Price Badge */
 .wcsre-price-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  /* Pill shape */
   background-color: #f3f4f6;
   color: #374151;
-  padding: 4px 10px;
-  border-radius: 999px; /* Pill shape */
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
@@ -178,21 +207,22 @@
  * ========================================= */
 
 .wcsre-modal-footer {
-  padding: 16px 20px;
-  background-color: #fff;
-  border-top: 1px solid #f3f4f6;
   display: flex;
   justify-content: flex-end;
+  flex-shrink: 0;
+  /* Prevents footer from shrinking */
   gap: 12px;
-  flex-shrink: 0; /* Prevents footer from shrinking */
+  padding: 16px 20px;
+  border-top: 1px solid #f3f4f6;
+  background-color: #fff;
 }
 
 #wcsre-close-modal {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   background-color: #fff;
   color: #374151;
-  border: 1px solid #d1d5db;
-  padding: 8px 16px;
-  border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -200,25 +230,25 @@
 }
 
 #wcsre-close-modal:hover {
-  background-color: #f9fafb;
   border-color: #9ca3af;
+  background-color: #f9fafb;
 }
 
 #wcsre-confirm-selection {
-  background-color: #111827;
-  color: #fff;
-  border: none;
   padding: 8px 20px;
+  border: none;
   border-radius: 6px;
+  background-color: #111827;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  color: #fff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   transition: all 0.2s;
 }
 
 #wcsre-confirm-selection:hover {
-  background-color: #000;
   transform: translateY(-1px);
+  background-color: #000;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
