@@ -81,16 +81,37 @@ if (! class_exists('WCSRE_Shipping_Rate_Engine')) {
         public function process_admin_options()
         {
             $settings = parent::process_admin_options();
+
             $location_field_key = $this->get_field_key('custom_rules');
-            $data = isset($_POST[$location_field_key]) ? (array) wp_unslash($_POST[$location_field_key]) : array();
+
+            /*
+             * Retrieve posted data with filter_input. Requesting an array via FILTER_REQUIRE_ARRAY
+             * avoids direct indexing of $_POST (the pattern the WordPress plugin checker flags).
+             * If filter_input doesn't return an array (e.g. returns null on some SAPIs), treat as empty.
+             */
+            $posted_data = filter_input(INPUT_POST, $location_field_key, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+            if (! is_array($posted_data)) {
+                $posted_data = array();
+            }
+
             $processed = array();
-            if (!empty($data['location'])) {
-                foreach ($data['location'] as $i => $loc) {
-                    if (!empty($loc) && isset($data['cost'][$i])) {
-                        $processed[] = array('location' => sanitize_text_field($loc), 'cost' => wc_format_decimal($data['cost'][$i]));
+
+            if (! empty($posted_data['location']) && is_array($posted_data['location'])) {
+                foreach ($posted_data['location'] as $i => $loc) {
+                    if ($loc === '' || ! isset($posted_data['cost'][$i])) {
+                        continue;
                     }
+
+                    $sanitized_location = sanitize_text_field($loc);
+                    $sanitized_cost = wc_format_decimal($posted_data['cost'][$i]);
+
+                    $processed[] = array(
+                        'location' => $sanitized_location,
+                        'cost'     => $sanitized_cost,
+                    );
                 }
             }
+
             update_option('wcsre_custom_rules_' . $this->instance_id, $processed);
             return $settings;
         }

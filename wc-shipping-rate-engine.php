@@ -70,23 +70,31 @@ add_action('wp_enqueue_scripts', 'wcsre_enqueue_scripts');
 function wcsre_admin_scripts()
 {
     // Check if we are on WooCommerce Settings -> Shipping Tab
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce not needed for simple screen context check.
     if (isset($_GET['page']) && $_GET['page'] === 'wc-settings' && isset($_GET['tab']) && $_GET['tab'] === 'shipping') {
         wp_enqueue_style('wcsre-admin-style', WCSRE_PLUGIN_URL . 'assets/css/admin.css', [], '1.1.5');
         wp_enqueue_script('wcsre-admin-script', WCSRE_PLUGIN_URL . 'assets/js/admin.js', ['jquery'], '1.1.5', true);
     }
 }
 add_action('admin_enqueue_scripts', 'wcsre_admin_scripts');
+
 // =================================================================
 // 5. AJAX HANDLER
 // =================================================================
 function wcsre_handle_session_update()
 {
-    if (! isset($_POST['security']) || ! wp_verify_nonce($_POST['security'], 'wcsre_nonce')) {
+    // Fix: Unslash and sanitize security nonce before verification
+    if (
+        ! isset($_POST['security']) ||
+        ! wp_verify_nonce(sanitize_key(wp_unslash($_POST['security'])), 'wcsre_nonce')
+    ) {
         wp_send_json_error('Security check failed');
     }
 
     if (isset($_POST['location'])) {
-        $location = sanitize_text_field($_POST['location']);
+        // Fix: Unslash before sanitization
+        $location = sanitize_text_field(wp_unslash($_POST['location']));
+
         if (WC()->session) {
             WC()->session->set('wcsre_selected_location', $location);
             if (method_exists(WC()->session, 'save_data')) {
@@ -245,7 +253,8 @@ function wcsre_validate_delivery_selection()
     }
     if (! $is_our_method) return;
 
-    $posted_location = isset($_POST['wcsre_selected_location']) ? sanitize_text_field($_POST['wcsre_selected_location']) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Hooked into woocommerce_checkout_process, which handles the nonce check.
+    $posted_location = isset($_POST['wcsre_selected_location']) ? sanitize_text_field(wp_unslash($_POST['wcsre_selected_location'])) : '';
 
     if (empty($posted_location)) {
         wc_add_notice(__('Please click "Select Your Area" and choose a delivery location.', 'wc-shipping-rate-engine'), 'error');

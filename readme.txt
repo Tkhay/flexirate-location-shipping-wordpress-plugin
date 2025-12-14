@@ -2,7 +2,7 @@
 Contributors: onetkhay
 Donate link: https://buymeacoffee.com/tiekuasare
 Tags: woocommerce, shipping, custom shipping, location-based shipping
-Requires at least: 6.8
+Requires at least: 6.9
 Tested up to: 6.9
 Stable tag: 1.0.0
 Requires PHP: 7.4
