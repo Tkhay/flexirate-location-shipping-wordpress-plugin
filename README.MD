@@ -1,4 +1,4 @@
-# WC Shipping Rate Engine
+# FlexiRate Location Shipping for WooCommerce
 
 A flexible WooCommerce shipping extension that enables location-based shipping rates using custom delivery areas with an elegant checkout modal interface.
 
@@ -41,23 +41,23 @@ See [readme.txt](readme.txt) for detailed installation instructions.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/wc-shipping-rate-engine.git
+git clone https://github.com/yourusername/flexirate-location-shipping.git
 
 # Navigate to your WordPress plugins directory
 cd wp-content/plugins/
 
 # Move or symlink the plugin
-mv /path/to/wc-shipping-rate-engine ./
+mv /path/to/flexirate-location-shipping ./
 
 # Activate via WP-CLI (optional)
-wp plugin activate wc-shipping-rate-engine
+wp plugin activate flexirate-location-shipping
 ```
 
 ## ⚙️ Configuration
 
 1. Navigate to **WooCommerce → Settings → Shipping**
 2. Select or create a shipping zone
-3. Add **WC Shipping Rate Engine** as a shipping method
+3. Add **FlexiRate Location Shipping for WooCommerce** as a shipping method
 4. Configure delivery areas and their costs
 5. Save changes
 
@@ -74,13 +74,13 @@ composer install  # If using Composer
 ## 📁 Project Structure
 
 ```
-wc-shipping-rate-engine/
+flexirate-location-shipping/
 ├── assets/
 │   ├── css/           # Stylesheets
 │   └── js/            # JavaScript files
 ├── includes/          # Core plugin files
 ├── languages/         # Translation files
-├── wc-shipping-rate-engine.php  # Main plugin file
+├── flexirate-location-shipping.php  # Main plugin file
 ├── readme.txt         # WordPress.org readme
 └── README.md          # This file
 ```
