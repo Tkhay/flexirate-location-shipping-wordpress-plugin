@@ -12,7 +12,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 6.9
  * Requires PHP:      7.4
- * Requires:          WooCommerce
+ * Requires Plugins:  woocommerce
  * WC requires at least: 9.0
  * WC tested up to:   10.4.2
  */
@@ -245,10 +245,8 @@ function frls_output_location_modal()
                         $cost  = wc_price(floatval($rule['cost']));
                 ?>
                         <label class="frls-radio-label">
-                            <span style="display: flex; align-items: center;">
-                                <input type="radio" name="frls_location_select" value="<?php echo esc_attr($slug); ?>" data-label="<?php echo esc_attr($label); ?>" />
-                                <span style="font-weight: 500; color: #111827;"><?php echo esc_html($label); ?></span>
-                            </span>
+                            <input type="radio" name="frls_location_select" value="<?php echo esc_attr($slug); ?>" data-label="<?php echo esc_attr($label); ?>" />
+                            <span class="frls-label-text"><?php echo esc_html($label); ?></span>
                             <span class="frls-price-badge"><?php echo wp_kses_post($cost); ?></span>
                         </label>
                     <?php endforeach;
