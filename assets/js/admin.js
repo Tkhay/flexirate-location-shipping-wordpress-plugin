@@ -19,11 +19,11 @@
       newRow +=
         '<td><input type="text" name="' +
         fieldName +
-        '[location][]" placeholder="e.g. Spintex, Sakumono" /></td>';
+        '[location][]" placeholder="e.g. Spintex, Sakumono" maxlength="100" required /></td>';
       newRow +=
         '<td><input type="number" name="' +
         fieldName +
-        '[cost][]" placeholder="0.00" step="0.01" /></td>';
+        '[cost][]" placeholder="0.00" step="0.01" min="0" required /></td>';
       newRow += '<td><a href="#" class="frls-remove-rule">&times;</a></td>';
       newRow += "</tr>";
 

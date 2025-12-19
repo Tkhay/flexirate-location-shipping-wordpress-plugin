@@ -68,8 +68,8 @@ if (! class_exists('FRLS_Shipping_Method')) {
                             foreach ($rules_to_show as $rule) :
                             ?>
                                 <tr class="frls_rule">
-                                    <td><input type="text" name="<?php echo esc_attr($field_key); ?>[location][]" value="<?php echo esc_attr($rule['location']); ?>" placeholder="e.g. Spintex" /></td>
-                                    <td><input type="number" name="<?php echo esc_attr($field_key); ?>[cost][]" value="<?php echo esc_attr($rule['cost']); ?>" placeholder="0.00" step="0.01" /></td>
+                                    <td><input type="text" name="<?php echo esc_attr($field_key); ?>[location][]" value="<?php echo esc_attr($rule['location']); ?>" placeholder="e.g. Spintex" maxlength="100" required /></td>
+                                    <td><input type="number" name="<?php echo esc_attr($field_key); ?>[cost][]" value="<?php echo esc_attr($rule['cost']); ?>" placeholder="0.00" step="0.01" min="0" required /></td>
                                     <td><a href="#" class="frls-remove-rule">&times;</a></td>
                                 </tr>
                             <?php endforeach; ?>
@@ -101,17 +101,23 @@ if (! class_exists('FRLS_Shipping_Method')) {
 
             if (! empty($posted_data['location']) && is_array($posted_data['location'])) {
                 foreach ($posted_data['location'] as $i => $loc) {
-                    if ('' === $loc || ! isset($posted_data['cost'][$i])) {
+                    // Skip if location is empty OR cost is not set OR cost is empty
+                    if ('' === $loc || ! isset($posted_data['cost'][$i]) || '' === $posted_data['cost'][$i]) {
                         continue;
                     }
 
-                    $sanitized_location = sanitize_text_field($loc);
-                    $sanitized_cost     = wc_format_decimal($posted_data['cost'][$i]);
+                    // Sanitize and truncate location to 100 characters
+                    $sanitized_location = substr(sanitize_text_field($loc), 0, 100);
+                    // Convert to float first to remove leading zeros, then format as decimal
+                    $sanitized_cost     = wc_format_decimal((float) $posted_data['cost'][$i]);
 
-                    $processed[] = array(
-                        'location' => $sanitized_location,
-                        'cost'     => $sanitized_cost,
-                    );
+                    // Only add if cost is greater than or equal to 0
+                    if ($sanitized_cost >= 0) {
+                        $processed[] = array(
+                            'location' => $sanitized_location,
+                            'cost'     => $sanitized_cost,
+                        );
+                    }
                 }
             }
 

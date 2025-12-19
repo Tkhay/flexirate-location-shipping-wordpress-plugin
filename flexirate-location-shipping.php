@@ -12,6 +12,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 6.9
  * Requires PHP:      7.4
+ * Requires:          WooCommerce
  * WC requires at least: 9.0
  * WC tested up to:   10.4.2
  */
