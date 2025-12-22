@@ -6,7 +6,7 @@
  * Version:           1.0.0
  * Author:            Tieku Asare
  * Author URI:        https://www.tiekuasare.com/
- * Text Domain:       locship-woocommerce
+ * Text Domain:       locship-for-woocommerce
  * Domain Path:       /languages
  * License:           GPL-2.0-or-later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
@@ -38,7 +38,7 @@ add_action('before_woocommerce_init', function () {
 // =================================================================
 function ls_add_custom_shipping_method($methods)
 {
-    require_once 'class-locship-woocommerce.php';
+    require_once 'class-locship-for-woocommerce.php';
     $methods['locship_location'] = 'LS_Shipping_Method';
     return $methods;
 }
@@ -171,7 +171,7 @@ function ls_add_location_selector_ui()
     }
 
     if (! class_exists('LS_Shipping_Method')) {
-        require_once 'class-locship-woocommerce.php';
+        require_once 'class-locship-for-woocommerce.php';
     }
 
     $shipping_method = new LS_Shipping_Method($instance_id);
@@ -194,12 +194,12 @@ function ls_add_location_selector_ui()
         <td colspan="2">
             <div class="ls-location-selector-wrap">
                 <label style="font-weight: bold; display: block; margin-bottom: 5px; color: #374151;">
-                    <?php esc_html_e('Delivery Area Selection', 'locship-woocommerce'); ?> <span style="color: red;">*</span>
+                    <?php esc_html_e('Delivery Area Selection', 'locship-for-woocommerce'); ?> <span style="color: red;">*</span>
                 </label>
                 <input type="hidden" id="ls_selected_location" name="ls_selected_location" value="<?php echo esc_attr($selected_slug); ?>" />
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <button type="button" id="ls-open-modal">
-                        <?php echo $selected_label ? esc_html($selected_label) : esc_html__('Select Your Area', 'locship-woocommerce'); ?>
+                        <?php echo $selected_label ? esc_html($selected_label) : esc_html__('Select Your Area', 'locship-for-woocommerce'); ?>
                     </button>
                     <?php if ($selected_label) : ?>
                         <span id="ls-selected-display" style="font-size: 14px; font-weight: 600; color: #047857;">✓ <?php echo esc_html($selected_label); ?></span>
@@ -229,14 +229,14 @@ function ls_output_location_modal()
     $custom_key     = 'ls_custom_rules_' . $instance_id;
     $location_rules = get_option($custom_key, array());
     if (! class_exists('LS_Shipping_Method')) {
-        require_once 'class-locship-woocommerce.php';
+        require_once 'class-locship-for-woocommerce.php';
     }
     $shipping_method = new LS_Shipping_Method($instance_id);
 ?>
     <div id="ls-modal">
         <div class="ls-modal-content">
             <div class="ls-modal-header">
-                <h3><?php esc_html_e('Select Your Delivery Area', 'locship-woocommerce'); ?></h3>
+                <h3><?php esc_html_e('Select Your Delivery Area', 'locship-for-woocommerce'); ?></h3>
             </div>
             <div class="ls-modal-body">
                 <?php if ($location_rules) : foreach ($location_rules as $rule) :
@@ -251,12 +251,12 @@ function ls_output_location_modal()
                         </label>
                     <?php endforeach;
                 else : ?>
-                    <div style="padding: 20px; text-align: center; color: #6b7280;"><?php esc_html_e('No locations configured.', 'locship-woocommerce'); ?></div>
+                    <div style="padding: 20px; text-align: center; color: #6b7280;"><?php esc_html_e('No locations configured.', 'locship-for-woocommerce'); ?></div>
                 <?php endif; ?>
             </div>
             <div class="ls-modal-footer">
-                <button type="button" id="ls-close-modal"><?php esc_html_e('Cancel', 'locship-woocommerce'); ?></button>
-                <button type="button" id="ls-confirm-selection"><?php esc_html_e('Confirm Selection', 'locship-woocommerce'); ?></button>
+                <button type="button" id="ls-close-modal"><?php esc_html_e('Cancel', 'locship-for-woocommerce'); ?></button>
+                <button type="button" id="ls-confirm-selection"><?php esc_html_e('Confirm Selection', 'locship-for-woocommerce'); ?></button>
             </div>
         </div>
     </div>
@@ -287,7 +287,7 @@ function ls_validate_delivery_selection()
     $posted_location = isset($_POST['ls_selected_location']) ? sanitize_text_field(wp_unslash($_POST['ls_selected_location'])) : '';
 
     if (empty($posted_location)) {
-        wc_add_notice(__('Please click "Select Your Area" and choose a delivery location.', 'locship-woocommerce'), 'error');
+        wc_add_notice(__('Please click "Select Your Area" and choose a delivery location.', 'locship-for-woocommerce'), 'error');
     }
     $session_location = WC()->session->get('ls_selected_location');
     if (! empty($posted_location) && empty($session_location)) {

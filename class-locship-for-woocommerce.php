@@ -11,8 +11,8 @@ if (! class_exists('LS_Shipping_Method')) {
         {
             $this->id                 = 'locship_location';
             $this->instance_id        = absint($instance_id);
-            $this->method_title       = __('LocShip', 'locship-woocommerce');
-            $this->method_description = __('Calculates shipping based on custom location names.', 'locship-woocommerce');
+            $this->method_title       = __('LocShip', 'locship-for-woocommerce');
+            $this->method_description = __('Calculates shipping based on custom location names.', 'locship-for-woocommerce');
             $this->init();
             $this->title             = isset($this->settings['title']) ? $this->settings['title'] : $this->method_title;
             $this->supports          = array('shipping-zones', 'instance-settings');
@@ -57,8 +57,8 @@ if (! class_exists('LS_Shipping_Method')) {
                     <table class="widefat" id="ls_rules_table">
                         <thead>
                             <tr>
-                                <th style="width: 60%;"><?php esc_html_e('Location Name', 'locship-woocommerce'); ?></th>
-                                <th style="width: 30%;"><?php esc_html_e('Price (GH₵)', 'locship-woocommerce'); ?></th>
+                                <th style="width: 60%;"><?php esc_html_e('Location Name', 'locship-for-woocommerce'); ?></th>
+                                <th style="width: 30%;"><?php esc_html_e('Price (GH₵)', 'locship-for-woocommerce'); ?></th>
                                 <th style="width: 10%;"></th>
                             </tr>
                         </thead>
