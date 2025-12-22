@@ -1,4 +1,4 @@
-# FlexiRate Location Shipping for WooCommerce
+# LocShip for WooCommerce
 
 A flexible WooCommerce shipping extension that enables location-based shipping rates using custom delivery areas with an elegant checkout modal interface.
 
@@ -41,23 +41,23 @@ See [readme.txt](readme.txt) for detailed installation instructions.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/flexirate-location-shipping.git
+git clone https://github.com/yourusername/locship-woocommerce.git
 
 # Navigate to your WordPress plugins directory
 cd wp-content/plugins/
 
 # Move or symlink the plugin
-mv /path/to/flexirate-location-shipping ./
+mv /path/to/locship-woocommerce ./
 
 # Activate via WP-CLI (optional)
-wp plugin activate flexirate-location-shipping
+wp plugin activate locship-woocommerce
 ```
 
 ## ⚙️ Configuration
 
 1. Navigate to **WooCommerce → Settings → Shipping**
 2. Select or create a shipping zone
-3. Add **FlexiRate Location Shipping for WooCommerce** as a shipping method
+3. Add **LocShip for WooCommerce** as a shipping method
 4. Configure delivery areas and their costs
 5. Save changes
 
@@ -74,13 +74,13 @@ composer install  # If using Composer
 ## 📁 Project Structure
 
 ```
-flexirate-location-shipping/
+locship-woocommerce/
 ├── assets/
 │   ├── css/           # Stylesheets
 │   └── js/            # JavaScript files
 ├── includes/          # Core plugin files
 ├── languages/         # Translation files
-├── flexirate-location-shipping.php  # Main plugin file
+├── locship-woocommerce.php  # Main plugin file
 ├── readme.txt         # WordPress.org readme
 └── README.md          # This file
 ```

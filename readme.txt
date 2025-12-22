@@ -1,4 +1,4 @@
-=== FlexiRate Location Shipping for WooCommerce ===
+=== LocShip for WooCommerce ===
 Contributors: onetkhay
 Donate link: https://buymeacoffee.com/tiekuasare
 Tags: woocommerce, shipping, custom shipping, location-based shipping
@@ -15,7 +15,7 @@ Custom WooCommerce shipping method that calculates rates based on customer-selec
 
 == Description ==
 
-FlexiRate Location Shipping for WooCommerce is a powerful and flexible WooCommerce shipping extension that allows you to create location-based shipping rates using custom area names instead of relying on standard address fields.
+LocShip for WooCommerce is a powerful and flexible WooCommerce shipping extension that allows you to create location-based shipping rates using custom area names instead of relying on standard address fields.
 
 Perfect for businesses that need granular control over delivery zones and pricing, this plugin provides:
 
@@ -58,7 +58,7 @@ Perfect for businesses that need granular control over delivery zones and pricin
 
 1. Log in to your WordPress admin panel
 2. Navigate to Plugins > Add New
-3. Search for "FlexiRate Location Shipping for WooCommerce"
+3. Search for "LocShip for WooCommerce"
 4. Click "Install Now" and then "Activate"
 
 = Manual Installation =
@@ -73,7 +73,7 @@ Perfect for businesses that need granular control over delivery zones and pricin
 
 1. Go to WooCommerce > Settings > Shipping
 2. Select a shipping zone or create a new one
-3. Click "Add shipping method" and choose "FlexiRate Location Shipping for WooCommerce"
+3. Click "Add shipping method" and choose "LocShip for WooCommerce"
 4. Configure your default cost and add delivery areas with their respective prices
 5. Click "Save changes"
 
@@ -81,11 +81,11 @@ Perfect for businesses that need granular control over delivery zones and pricin
 
 = How do I add delivery areas? =
 
-Navigate to WooCommerce > Settings > Shipping, select your shipping zone, click on the FlexiRate Location Shipping for WooCommerce method, and use the "Delivery Areas" table to add locations and their costs. Click "Add New Area" to add more rows.
+Navigate to WooCommerce > Settings > Shipping, select your shipping zone, click on the LocShip for WooCommerce method, and use the "Delivery Areas" table to add locations and their costs. Click "Add New Area" to add more rows.
 
 = Can I have different delivery areas for different shipping zones? =
 
-Yes! You can add the FlexiRate Location Shipping for WooCommerce method to multiple shipping zones, and each zone can have its own unique set of delivery areas and pricing.
+Yes! You can add the LocShip for WooCommerce method to multiple shipping zones, and each zone can have its own unique set of delivery areas and pricing.
 
 = What happens if a customer doesn't select a delivery area? =
 
@@ -101,7 +101,7 @@ Yes, the plugin is fully compatible with WooCommerce High-Performance Order Stor
 
 = Does this work with other shipping methods? =
 
-Yes, FlexiRate Location Shipping for WooCommerce works alongside other WooCommerce shipping methods. Customers will see all available shipping options at checkout.
+Yes, LocShip for WooCommerce works alongside other WooCommerce shipping methods. Customers will see all available shipping options at checkout.
 
 = Can I set a default shipping cost? =
 
@@ -145,7 +145,7 @@ Yes, the plugin uses WordPress localization functions and includes a text domain
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial release of FlexiRate Location Shipping for WooCommerce. Install to start using custom location-based shipping rates in your WooCommerce store.
+Initial release of LocShip for WooCommerce. Install to start using custom location-based shipping rates in your WooCommerce store.
 
 == Additional Information ==
 

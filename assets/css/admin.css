@@ -1,35 +1,35 @@
-#frls_rules_table {
+#ls_rules_table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 15px;
 }
 
-#frls_rules_table th {
+#ls_rules_table th {
   text-align: left;
   padding: 10px;
   background: #f0f0f1;
   border-bottom: 1px solid #ccc;
 }
 
-#frls_rules_table td {
+#ls_rules_table td {
   padding: 10px;
   border-bottom: 1px solid #eee;
   vertical-align: top;
 }
 
-.frls_rule input[type="text"],
-.frls_rule input[type="number"] {
+.ls_rule input[type="text"],
+.ls_rule input[type="number"] {
   width: 100%;
   max-width: 300px;
 }
 
-.frls-remove-rule {
+.ls-remove-rule {
   color: #dc3232;
   text-decoration: none;
   font-size: 20px;
   font-weight: 700;
 }
 
-.frls-remove-rule:hover {
+.ls-remove-rule:hover {
   color: #a00;
 }

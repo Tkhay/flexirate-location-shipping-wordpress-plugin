@@ -1,56 +1,57 @@
-/* global frls_params */
+/* global ls_params */
 (function ($) {
   "use strict";
 
   $(document).ready(function () {
     // OPEN MODAL
-    $("body").on("click", "#frls-open-modal", function (e) {
+    $("body").on("click", "#ls-open-modal", function (e) {
       e.preventDefault();
-      const currentSlug = $("#frls_selected_location").val();
+      const currentSlug = $("#ls_selected_location").val();
 
-      $('input[name="frls_location_select"]').prop("checked", false);
+      $('input[name="ls_location_select"]').prop("checked", false);
 
       if (currentSlug) {
-        $(
-          'input[name="frls_location_select"][value="' + currentSlug + '"]'
-        ).prop("checked", true);
+        $('input[name="ls_location_select"][value="' + currentSlug + '"]').prop(
+          "checked",
+          true
+        );
       }
 
-      $("#frls-modal").css("display", "flex").hide().fadeIn(200);
+      $("#ls-modal").css("display", "flex").hide().fadeIn(200);
     });
 
     // CLOSE MODAL
-    $("body").on("click", "#frls-close-modal", function (e) {
+    $("body").on("click", "#ls-close-modal", function (e) {
       e.preventDefault();
-      $("#frls-modal").fadeOut(200);
+      $("#ls-modal").fadeOut(200);
     });
 
     $(window).on("click", function (e) {
-      if (e.target.id === "frls-modal") {
-        $("#frls-modal").fadeOut(200);
+      if (e.target.id === "ls-modal") {
+        $("#ls-modal").fadeOut(200);
       }
     });
 
     // CONFIRM SELECTION (TWO-STEP AJAX)
-    $("body").on("click", "#frls-confirm-selection", function (e) {
+    $("body").on("click", "#ls-confirm-selection", function (e) {
       e.preventDefault();
-      const $selectedRadio = $('input[name="frls_location_select"]:checked');
+      const $selectedRadio = $('input[name="ls_location_select"]:checked');
 
       if ($selectedRadio.length) {
         const selectedSlug = $selectedRadio.val();
         const selectedLabel = $selectedRadio.data("label");
 
-        $("#frls_selected_location").val(selectedSlug);
-        $("#frls-open-modal").text("Updating...");
-        $("#frls-modal").fadeOut(200);
+        $("#ls_selected_location").val(selectedSlug);
+        $("#ls-open-modal").text("Updating...");
+        $("#ls-modal").fadeOut(200);
 
         // STEP 1: Custom AJAX to save session
         $.ajax({
           type: "POST",
-          url: frls_params.ajax_url,
+          url: ls_params.ajax_url,
           data: {
-            action: "frls_update_session",
-            security: frls_params.nonce,
+            action: "ls_update_session",
+            security: ls_params.nonce,
             location: selectedSlug,
           },
           success: function (response) {
@@ -60,19 +61,19 @@
 
               // Visual feedback
               setTimeout(function () {
-                $("#frls-open-modal").text(selectedLabel);
-                if ($("#frls-selected-display").length) {
-                  $("#frls-selected-display").text("✓ " + selectedLabel);
+                $("#ls-open-modal").text(selectedLabel);
+                if ($("#ls-selected-display").length) {
+                  $("#ls-selected-display").text("✓ " + selectedLabel);
                 }
               }, 1500);
             } else {
               window.alert("Error updating location");
-              $("#frls-open-modal").text("Try Again");
+              $("#ls-open-modal").text("Try Again");
             }
           },
           error: function () {
             window.alert("Connection error");
-            $("#frls-open-modal").text("Try Again");
+            $("#ls-open-modal").text("Try Again");
           },
         });
       } else {
