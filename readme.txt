@@ -130,6 +130,10 @@ Yes, the plugin uses WordPress localization functions and includes a text domain
 
 == Changelog ==
 
+= 1.0.2 =
+* New: Added uninstall.php to properly clean up database settings when the plugin is deleted.
+* Fix: Resolved an issue where shipping method options would persist in the database after uninstallation.
+
 = 1.0.1 =
 * Fixed: Made currency symbol dynamic.
 

@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       LocShip for WooCommerce
  * Description:       Custom shipping zones and calculates rates based on the customer's selected City/Town name via a checkout modal.
- * Version:           1.0.2
+ * Version:           1.0.2 
  * Author:            Tieku Asare
  * Author URI:        https://www.tiekuasare.com/
  * Text Domain:       locship-for-woocommerce
@@ -23,6 +23,7 @@ if (! defined('ABSPATH')) {
 
 define('LOCSH_FOR_WOOCOM_PLUGIN_FILE', __FILE__);
 define('LOCSH_FOR_WOOCOM_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('LOCSH_FOR_WOOCOM_VERSION', '1.0.2');
 
 // =================================================================
 // 1. DECLARE HPOS COMPATIBILITY (FIXES THE ERROR)
@@ -54,10 +55,10 @@ function locsh_for_woocom_enqueue_scripts()
     }
 
     // CSS
-    wp_enqueue_style('locsh-for-woocom-style', LOCSH_FOR_WOOCOM_PLUGIN_URL . 'assets/css/style.css', array(), '1.0.0');
+    wp_enqueue_style('locsh-for-woocom-style', LOCSH_FOR_WOOCOM_PLUGIN_URL . 'assets/css/style.css', array(), LOCSH_FOR_WOOCOM_VERSION);
 
     // JS
-    wp_enqueue_script('locsh-for-woocom-script', LOCSH_FOR_WOOCOM_PLUGIN_URL . 'assets/js/script.js', array('jquery'), '1.0.0', true);
+    wp_enqueue_script('locsh-for-woocom-script', LOCSH_FOR_WOOCOM_PLUGIN_URL . 'assets/js/script.js', array('jquery'), LOCSH_FOR_WOOCOM_VERSION, true);
 
     // Pass PHP data to JS
     wp_localize_script(
@@ -79,8 +80,8 @@ function locsh_for_woocom_admin_scripts()
     // Check if we are on WooCommerce Settings -> Shipping Tab
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce not needed for simple screen context check.
     if (isset($_GET['page']) && 'wc-settings' === $_GET['page'] && isset($_GET['tab']) && 'shipping' === $_GET['tab']) {
-        wp_enqueue_style('locsh-for-woocom-admin-style', LOCSH_FOR_WOOCOM_PLUGIN_URL . 'assets/css/admin.css', array(), '1.0.0');
-        wp_enqueue_script('locsh-for-woocom-admin-script', LOCSH_FOR_WOOCOM_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('locsh-for-woocom-admin-style', LOCSH_FOR_WOOCOM_PLUGIN_URL . 'assets/css/admin.css', array(), LOCSH_FOR_WOOCOM_VERSION);
+        wp_enqueue_script('locsh-for-woocom-admin-script', LOCSH_FOR_WOOCOM_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), LOCSH_FOR_WOOCOM_VERSION, true);
     }
 }
 add_action('admin_enqueue_scripts', 'locsh_for_woocom_admin_scripts');
