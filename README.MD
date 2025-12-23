@@ -109,7 +109,7 @@ This project is licensed under the GPLv2 or later - see the [LICENSE](https://ww
 
 ## 💬 Support
 
-- **Email**: hello@tiekuasare.com
+- **Email**: dev@tiekuasare.com
 - **Website**: [tiekuasare.com](https://www.tiekuasare.com/)
 - **Buy Me a Coffee**: [Support the project](https://buymeacoffee.com/tiekuasare)
 
