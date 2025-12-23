@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       LocShip for WooCommerce
  * Description:       Custom shipping zones and calculates rates based on the customer's selected City/Town name via a checkout modal.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            Tieku Asare
  * Author URI:        https://www.tiekuasare.com/
  * Text Domain:       locship-for-woocommerce
