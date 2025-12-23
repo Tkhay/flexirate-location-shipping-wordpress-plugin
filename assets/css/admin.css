@@ -1,35 +1,35 @@
-#ls_rules_table {
+#locsh_for_woocom_rules_table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 15px;
 }
 
-#ls_rules_table th {
+#locsh_for_woocom_rules_table th {
   text-align: left;
   padding: 10px;
   background: #f0f0f1;
   border-bottom: 1px solid #ccc;
 }
 
-#ls_rules_table td {
+#locsh_for_woocom_rules_table td {
   padding: 10px;
   border-bottom: 1px solid #eee;
   vertical-align: top;
 }
 
-.ls_rule input[type="text"],
-.ls_rule input[type="number"] {
+.locsh_for_woocom_rule input[type="text"],
+.locsh_for_woocom_rule input[type="number"] {
   width: 100%;
   max-width: 300px;
 }
 
-.ls-remove-rule {
+.locsh-for-woocom-remove-rule {
   color: #dc3232;
   text-decoration: none;
   font-size: 20px;
   font-weight: 700;
 }
 
-.ls-remove-rule:hover {
+.locsh-for-woocom-remove-rule:hover {
   color: #a00;
 }

@@ -41,16 +41,16 @@ See [readme.txt](readme.txt) for detailed installation instructions.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/locship-woocommerce.git
+git clone https://github.com/yourusername/locship-for-woocommerce.git
 
 # Navigate to your WordPress plugins directory
 cd wp-content/plugins/
 
 # Move or symlink the plugin
-mv /path/to/locship-woocommerce ./
+mv /path/to/locship-for-woocommerce ./
 
 # Activate via WP-CLI (optional)
-wp plugin activate locship-woocommerce
+wp plugin activate locship-for-woocommerce
 ```
 
 ## ⚙️ Configuration
@@ -74,13 +74,13 @@ composer install  # If using Composer
 ## 📁 Project Structure
 
 ```
-locship-woocommerce/
+locship-for-woocommerce/
 ├── assets/
 │   ├── css/           # Stylesheets
 │   └── js/            # JavaScript files
 ├── includes/          # Core plugin files
 ├── languages/         # Translation files
-├── locship-woocommerce.php  # Main plugin file
+├── locship-for-woocommerce.php  # Main plugin file
 ├── readme.txt         # WordPress.org readme
 └── README.md          # This file
 ```
