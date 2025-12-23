@@ -4,7 +4,7 @@ Donate link: https://buymeacoffee.com/tiekuasare
 Tags: woocommerce, shipping, custom shipping, location-based shipping
 Requires at least: 6.9
 Tested up to: 6.9
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 7.4
 WC requires at least: 9.0
 WC tested up to: 10.4.2
@@ -129,6 +129,10 @@ Yes, the plugin uses WordPress localization functions and includes a text domain
 4. Selected delivery area confirmation on checkout
 
 == Changelog ==
+
+= 1.0.3 =
+* Fix: Updated styles class to match main plugin version.
+* Fix: Fixed the enqueueing of admin scripts and styles.
 
 = 1.0.2 =
 * New: Added uninstall.php to properly clean up database settings when the plugin is deleted.

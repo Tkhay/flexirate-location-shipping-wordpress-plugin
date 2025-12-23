@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       LocShip for WooCommerce
  * Description:       Custom shipping zones and calculates rates based on the customer's selected City/Town name via a checkout modal.
- * Version:           1.0.2 
+ * Version:           1.0.3 
  * Author:            Tieku Asare
  * Author URI:        https://www.tiekuasare.com/
  * Text Domain:       locship-for-woocommerce
@@ -23,7 +23,7 @@ if (! defined('ABSPATH')) {
 
 define('LOCSH_FOR_WOOCOM_PLUGIN_FILE', __FILE__);
 define('LOCSH_FOR_WOOCOM_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('LOCSH_FOR_WOOCOM_VERSION', '1.0.2');
+define('LOCSH_FOR_WOOCOM_VERSION', '1.0.3');
 
 // =================================================================
 // 1. DECLARE HPOS COMPATIBILITY (FIXES THE ERROR)
