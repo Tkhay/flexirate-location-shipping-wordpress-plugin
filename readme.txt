@@ -167,8 +167,8 @@ The plugin stores delivery area selections in WooCommerce sessions and includes 
 = Support =
 For support, feature requests, or bug reports:
 
-Email: dev@tiekuasare.com
-Website: https://www.tiekuasare.com/
+Email: [Email](mailto:dev@tiekuasare.com)
+Website: [Website](https://www.tiekuasare.com/)
 
 = Privacy Policy =
 
