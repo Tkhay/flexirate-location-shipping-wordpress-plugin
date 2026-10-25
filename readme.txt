@@ -4,10 +4,10 @@ Donate link: https://buymeacoffee.com/tiekuasare
 Tags: woocommerce, shipping, custom shipping, location-based shipping
 Requires at least: 6.9
 Tested up to: 7.1
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 Requires PHP: 7.4
 WC requires at least: 9.0
-WC tested up to: 10.4.2
+WC tested up to: 11.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,6 +130,11 @@ Yes, the plugin uses WordPress localization functions and includes a text domain
 
 == Changelog ==
 
+= 1.0.5 =
+* Tested up to WooCommerce 11.2.1.
+* Fix: The "Select Your Area" button and modal buttons are now readable on checkouts built with page builders such as FunnelKit, which previously forced the button text and background to the same colour.
+* New: Button colours can be customised with the `--locsh-btn-*` and `--locsh-cancel-*` CSS variables.
+
 = 1.0.4 =
 * Tested up to WordPress 7.1.
 * Security: Posted and AJAX delivery areas are now validated against the configured areas.
@@ -164,6 +169,9 @@ Yes, the plugin uses WordPress localization functions and includes a text domain
 * Translation ready
 
 == Upgrade Notice ==
+
+= 1.0.5 =
+Fixes an unreadable area button on FunnelKit and similar checkouts and confirms WooCommerce 11.2.1 compatibility.
 
 = 1.0.4 =
 Validates selected delivery areas, fixes multi-zone area lists and confirms WordPress 7.1 compatibility.
