@@ -14,25 +14,47 @@
   /* Light Gray Background */
 }
 
-#locsh-for-woocom-open-modal {
+/*
+ * Colours are exposed as variables so site owners can restyle the button:
+ *   :root { --locsh-btn-bg: #0a7; --locsh-btn-color: #fff; }
+ *
+ * The ID is repeated on purpose. Checkout builders (e.g. FunnelKit) force
+ * `color: #000 !important` on every descendant of their form and restyle all
+ * `button[type=button]` elements; a repeated ID outranks any class-based chain
+ * so the label can never end up the same colour as its background.
+ */
+:root {
+  --locsh-btn-bg: #111827;
+  --locsh-btn-bg-hover: #374151;
+  --locsh-btn-color: #fff;
+  --locsh-cancel-bg: #fff;
+  --locsh-cancel-bg-hover: #f9fafb;
+  --locsh-cancel-color: #374151;
+}
+
+button#locsh-for-woocom-open-modal#locsh-for-woocom-open-modal {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 10px 18px;
   border: none;
   border-radius: 6px;
-  background-color: #111827;
-  /* Dark / Almost Black */
-  color: #fff;
+  background-color: var(--locsh-btn-bg) !important;
+  color: var(--locsh-btn-color) !important;
+  -webkit-text-fill-color: var(--locsh-btn-color) !important;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-#locsh-for-woocom-open-modal:hover {
+button#locsh-for-woocom-open-modal#locsh-for-woocom-open-modal:hover,
+button#locsh-for-woocom-open-modal#locsh-for-woocom-open-modal:focus,
+button#locsh-for-woocom-open-modal#locsh-for-woocom-open-modal:active {
   transform: translateY(-1px);
-  background-color: #374151;
+  background-color: var(--locsh-btn-bg-hover) !important;
+  color: var(--locsh-btn-color) !important;
+  -webkit-text-fill-color: var(--locsh-btn-color) !important;
 }
 
 #locsh-for-woocom-selected-display {
@@ -222,40 +244,51 @@
   background-color: #fff;
 }
 
-#locsh-for-woocom-close-modal {
+/* Same repeated-ID technique as the open-modal button (see section 1). */
+button#locsh-for-woocom-close-modal#locsh-for-woocom-close-modal {
   padding: 8px 16px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
-  background-color: #fff;
-  color: #374151;
+  background-color: var(--locsh-cancel-bg) !important;
+  color: var(--locsh-cancel-color) !important;
+  -webkit-text-fill-color: var(--locsh-cancel-color) !important;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-#locsh-for-woocom-close-modal:hover {
+button#locsh-for-woocom-close-modal#locsh-for-woocom-close-modal:hover,
+button#locsh-for-woocom-close-modal#locsh-for-woocom-close-modal:focus,
+button#locsh-for-woocom-close-modal#locsh-for-woocom-close-modal:active {
   border-color: #9ca3af;
-  background-color: #f9fafb;
+  background-color: var(--locsh-cancel-bg-hover) !important;
+  color: var(--locsh-cancel-color) !important;
+  -webkit-text-fill-color: var(--locsh-cancel-color) !important;
 }
 
-#locsh-for-woocom-confirm-selection {
+button#locsh-for-woocom-confirm-selection#locsh-for-woocom-confirm-selection {
   padding: 8px 20px;
   border: none;
   border-radius: 6px;
-  background-color: #111827;
+  background-color: var(--locsh-btn-bg) !important;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  color: #fff;
+  color: var(--locsh-btn-color) !important;
+  -webkit-text-fill-color: var(--locsh-btn-color) !important;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-#locsh-for-woocom-confirm-selection:hover {
+button#locsh-for-woocom-confirm-selection#locsh-for-woocom-confirm-selection:hover,
+button#locsh-for-woocom-confirm-selection#locsh-for-woocom-confirm-selection:focus,
+button#locsh-for-woocom-confirm-selection#locsh-for-woocom-confirm-selection:active {
   transform: translateY(-1px);
-  background-color: #000;
+  background-color: var(--locsh-btn-bg-hover) !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: var(--locsh-btn-color) !important;
+  -webkit-text-fill-color: var(--locsh-btn-color) !important;
 }
 
 /* =========================================
