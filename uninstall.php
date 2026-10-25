@@ -9,14 +9,46 @@ if (! defined('WP_UNINSTALL_PLUGIN')) {
     exit;
 }
 
-global $wpdb;
-
 /**
- * 1. Delete plugin-specific options
+ * Remove plugin data for the current site.
  */
-$wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE 'locsh_for_woocom_%'");
+function locsh_for_woocom_uninstall_site()
+{
+    global $wpdb;
 
-/**
- * 2. Delete WooCommerce shipping method settings
- */
-$wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE 'woocommerce_locship_location_%'");
+    // 1. Plugin-specific options.
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off cleanup on uninstall.
+    $wpdb->query(
+        $wpdb->prepare(
+            "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+            $wpdb->esc_like('locsh_for_woocom_') . '%'
+        )
+    );
+
+    // 2. WooCommerce shipping method instance settings.
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off cleanup on uninstall.
+    $wpdb->query(
+        $wpdb->prepare(
+            "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+            $wpdb->esc_like('woocommerce_locship_location_') . '%'
+        )
+    );
+
+    // 3. Shipping zone method rows left behind in WooCommerce's table.
+    $zone_methods_table = $wpdb->prefix . 'woocommerce_shipping_zone_methods';
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off cleanup on uninstall.
+    if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($zone_methods_table))) === $zone_methods_table) {
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off cleanup on uninstall.
+        $wpdb->delete($zone_methods_table, array('method_id' => 'locship_location'));
+    }
+}
+
+if (is_multisite()) {
+    foreach (get_sites(array('fields' => 'ids', 'number' => 0)) as $locsh_for_woocom_blog_id) {
+        switch_to_blog($locsh_for_woocom_blog_id);
+        locsh_for_woocom_uninstall_site();
+        restore_current_blog();
+    }
+} else {
+    locsh_for_woocom_uninstall_site();
+}
