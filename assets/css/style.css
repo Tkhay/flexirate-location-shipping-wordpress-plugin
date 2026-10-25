@@ -257,3 +257,30 @@
   background-color: #000;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
+
+/* =========================================
+ * 5. CHECKOUT ROW HELPERS
+ * ========================================= */
+
+.locsh-for-woocom-area-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #374151;
+  font-weight: bold;
+}
+
+.locsh-for-woocom-required {
+  color: red;
+}
+
+.locsh-for-woocom-button-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.locsh-for-woocom-no-locations {
+  padding: 20px;
+  color: #6b7280;
+  text-align: center;
+}

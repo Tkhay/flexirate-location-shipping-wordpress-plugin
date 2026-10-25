@@ -3,13 +3,13 @@
 /**
  * Plugin Name:       LocShip for WooCommerce
  * Description:       Custom shipping zones and calculates rates based on the customer's selected City/Town name via a checkout modal.
- * Version:           1.0.3 
+ * Version:           1.0.4
  * Author:            Tieku Asare
  * Author URI:        https://www.tiekuasare.com/
  * Text Domain:       locship-for-woocommerce
  * Domain Path:       /languages
  * License:           GPL-2.0-or-later
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
@@ -22,8 +22,9 @@ if (! defined('ABSPATH')) {
 }
 
 define('LOCSH_FOR_WOOCOM_PLUGIN_FILE', __FILE__);
+define('LOCSH_FOR_WOOCOM_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('LOCSH_FOR_WOOCOM_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('LOCSH_FOR_WOOCOM_VERSION', '1.0.3');
+define('LOCSH_FOR_WOOCOM_VERSION', '1.0.4');
 
 // =================================================================
 // 1. DECLARE HPOS COMPATIBILITY (FIXES THE ERROR)
@@ -31,6 +32,8 @@ define('LOCSH_FOR_WOOCOM_VERSION', '1.0.3');
 add_action('before_woocommerce_init', function () {
     if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
         \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+        // The area selector only works with the classic (shortcode) checkout.
+        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, false);
     }
 });
 
@@ -39,7 +42,7 @@ add_action('before_woocommerce_init', function () {
 // =================================================================
 function locsh_for_woocom_add_custom_shipping_method($methods)
 {
-    require_once 'class-locship-for-woocommerce.php';
+    require_once LOCSH_FOR_WOOCOM_PLUGIN_DIR . 'class-locship-for-woocommerce.php';
     $methods['locship_location'] = 'LOCSH_FOR_WOOCOM_Shipping_Method';
     return $methods;
 }
@@ -91,17 +94,20 @@ add_action('admin_enqueue_scripts', 'locsh_for_woocom_admin_scripts');
 // =================================================================
 function locsh_for_woocom_handle_session_update()
 {
-    // Fix: Unslash and sanitize security nonce before verification
     if (
         ! isset($_POST['security']) ||
         ! wp_verify_nonce(sanitize_key(wp_unslash($_POST['security'])), 'locsh_for_woocom_nonce')
     ) {
-        wp_send_json_error('Security check failed');
+        wp_send_json_error(__('Security check failed', 'locship-for-woocommerce'));
     }
 
     if (isset($_POST['location'])) {
-        // Fix: Unslash before sanitization
         $location = sanitize_text_field(wp_unslash($_POST['location']));
+
+        // Only accept slugs that match a configured delivery area.
+        if (! locsh_for_woocom_is_valid_slug($location, locsh_for_woocom_get_instance_id())) {
+            wp_send_json_error(__('Invalid delivery area', 'locship-for-woocommerce'));
+        }
 
         if (WC()->session) {
             WC()->session->set('locsh_for_woocom_selected_location', $location);
@@ -110,7 +116,7 @@ function locsh_for_woocom_handle_session_update()
             }
         }
     }
-    wp_send_json_success(array('message' => 'Session updated'));
+    wp_send_json_success(array('message' => __('Session updated', 'locship-for-woocommerce')));
 }
 add_action('wp_ajax_locsh_for_woocom_update_session', 'locsh_for_woocom_handle_session_update');
 add_action('wp_ajax_nopriv_locsh_for_woocom_update_session', 'locsh_for_woocom_handle_session_update');
@@ -158,6 +164,50 @@ function locsh_for_woocom_get_first_active_instance_id()
     return 0;
 }
 
+/**
+ * Resolve the LocShip instance for the customer's chosen shipping method,
+ * falling back to the first active instance.
+ */
+function locsh_for_woocom_get_instance_id()
+{
+    $session = function_exists('WC') ? WC()->session : null;
+    if ($session) {
+        $chosen = $session->get('chosen_shipping_methods');
+        if (is_array($chosen)) {
+            foreach ($chosen as $method) {
+                if (is_string($method) && 0 === strpos($method, 'locship_location:')) {
+                    $instance_id = absint(substr($method, strlen('locship_location:')));
+                    if ($instance_id) {
+                        return $instance_id;
+                    }
+                }
+            }
+        }
+    }
+    return locsh_for_woocom_get_first_active_instance_id();
+}
+
+/**
+ * Check that a slug matches one of the configured delivery areas of an instance.
+ */
+function locsh_for_woocom_is_valid_slug($slug, $instance_id)
+{
+    if ('' === $slug || ! $instance_id) {
+        return false;
+    }
+    if (! class_exists('LOCSH_FOR_WOOCOM_Shipping_Method')) {
+        require_once LOCSH_FOR_WOOCOM_PLUGIN_DIR . 'class-locship-for-woocommerce.php';
+    }
+    $shipping_method = new LOCSH_FOR_WOOCOM_Shipping_Method($instance_id);
+    $rules           = get_option('locsh_for_woocom_custom_rules_' . $instance_id, array());
+    foreach ((array) $rules as $rule) {
+        if ($shipping_method->generate_location_slug($rule['location']) === $slug) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // =================================================================
 // 8. UI: ADD BUTTON & MODAL
 // =================================================================
@@ -166,20 +216,20 @@ function locsh_for_woocom_add_location_selector_ui()
     if (! is_checkout() || is_wc_endpoint_url()) {
         return;
     }
-    $instance_id = locsh_for_woocom_get_first_active_instance_id();
+    $instance_id = locsh_for_woocom_get_instance_id();
     if (! $instance_id) {
         return;
     }
 
     if (! class_exists('LOCSH_FOR_WOOCOM_Shipping_Method')) {
-        require_once 'class-locship-for-woocommerce.php';
+        require_once LOCSH_FOR_WOOCOM_PLUGIN_DIR . 'class-locship-for-woocommerce.php';
     }
 
     $shipping_method = new LOCSH_FOR_WOOCOM_Shipping_Method($instance_id);
     $custom_key     = 'locsh_for_woocom_custom_rules_' . $instance_id;
     $location_rules = get_option($custom_key, array());
 
-    $selected_slug  = WC()->session->get('locsh_for_woocom_selected_location') ?? '';
+    $selected_slug  = WC()->session ? (WC()->session->get('locsh_for_woocom_selected_location') ?? '') : '';
     $selected_label = '';
 
     if ($selected_slug) {
@@ -194,16 +244,16 @@ function locsh_for_woocom_add_location_selector_ui()
     <tr class="locsh-for-woocom-location-row">
         <td colspan="2">
             <div class="locsh-for-woocom-location-selector-wrap">
-                <label style="font-weight: bold; display: block; margin-bottom: 5px; color: #374151;">
-                    <?php esc_html_e('Delivery Area Selection', 'locship-for-woocommerce'); ?> <span style="color: red;">*</span>
+                <label class="locsh-for-woocom-area-label">
+                    <?php esc_html_e('Delivery Area Selection', 'locship-for-woocommerce'); ?> <span class="locsh-for-woocom-required">*</span>
                 </label>
                 <input type="hidden" id="locsh_for_woocom_selected_location" name="locsh_for_woocom_selected_location" value="<?php echo esc_attr($selected_slug); ?>" />
-                <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="locsh-for-woocom-button-row">
                     <button type="button" id="locsh-for-woocom-open-modal">
                         <?php echo $selected_label ? esc_html($selected_label) : esc_html__('Select Your Area', 'locship-for-woocommerce'); ?>
                     </button>
                     <?php if ($selected_label) : ?>
-                        <span id="locsh-for-woocom-selected-display" style="font-size: 14px; font-weight: 600; color: #047857;">✓ <?php echo esc_html($selected_label); ?></span>
+                        <span id="locsh-for-woocom-selected-display">✓ <?php echo esc_html($selected_label); ?></span>
                     <?php endif; ?>
                 </div>
             </div>
@@ -223,14 +273,14 @@ function locsh_for_woocom_output_location_modal()
     if (! is_checkout()) {
         return;
     }
-    $instance_id = locsh_for_woocom_get_first_active_instance_id();
+    $instance_id = locsh_for_woocom_get_instance_id();
     if (! $instance_id) {
         return;
     }
     $custom_key     = 'locsh_for_woocom_custom_rules_' . $instance_id;
     $location_rules = get_option($custom_key, array());
     if (! class_exists('LOCSH_FOR_WOOCOM_Shipping_Method')) {
-        require_once 'class-locship-for-woocommerce.php';
+        require_once LOCSH_FOR_WOOCOM_PLUGIN_DIR . 'class-locship-for-woocommerce.php';
     }
     $shipping_method = new LOCSH_FOR_WOOCOM_Shipping_Method($instance_id);
 ?>
@@ -252,7 +302,7 @@ function locsh_for_woocom_output_location_modal()
                         </label>
                     <?php endforeach;
                 else : ?>
-                    <div style="padding: 20px; text-align: center; color: #6b7280;"><?php esc_html_e('No locations configured.', 'locship-for-woocommerce'); ?></div>
+                    <div class="locsh-for-woocom-no-locations"><?php esc_html_e('No locations configured.', 'locship-for-woocommerce'); ?></div>
                 <?php endif; ?>
             </div>
             <div class="locsh-for-woocom-modal-footer">
@@ -270,6 +320,9 @@ add_action('wp_footer', 'locsh_for_woocom_output_location_modal');
 // =================================================================
 function locsh_for_woocom_validate_delivery_selection()
 {
+    if (! WC()->session) {
+        return;
+    }
     $chosen_methods = WC()->session->get('chosen_shipping_methods');
     $is_our_method  = false;
     if (! empty($chosen_methods)) {
@@ -289,9 +342,15 @@ function locsh_for_woocom_validate_delivery_selection()
 
     if (empty($posted_location)) {
         wc_add_notice(__('Please click "Select Your Area" and choose a delivery location.', 'locship-for-woocommerce'), 'error');
+        return;
     }
-    $session_location = WC()->session->get('locsh_for_woocom_selected_location');
-    if (! empty($posted_location) && empty($session_location)) {
+
+    if (! locsh_for_woocom_is_valid_slug($posted_location, locsh_for_woocom_get_instance_id())) {
+        wc_add_notice(__('The selected delivery area is not valid. Please choose an area again.', 'locship-for-woocommerce'), 'error');
+        return;
+    }
+
+    if (WC()->session->get('locsh_for_woocom_selected_location') !== $posted_location) {
         WC()->session->set('locsh_for_woocom_selected_location', $posted_location);
     }
 }

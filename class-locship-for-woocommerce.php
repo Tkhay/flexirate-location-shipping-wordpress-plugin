@@ -32,10 +32,10 @@ class LOCSH_FOR_WOOCOM_Shipping_Method extends WC_Shipping_Method
     public function init_form_fields()
     {
         $this->instance_form_fields = array(
-            'enabled'       => array('title' => 'Enable/Disable', 'type' => 'checkbox', 'label' => 'Enable', 'default' => 'yes'),
-            'title'         => array('title' => 'Title', 'type' => 'text', 'default' => 'Custom Shipping Rate'),
-            'default_cost'  => array('title' => 'Default Cost', 'type' => 'price', 'default' => '66.00'),
-            'custom_rules'  => array('title' => 'Delivery Areas', 'type' => 'title', 'description' => 'Manage your locations and their costs below.'),
+            'enabled'       => array('title' => __('Enable/Disable', 'locship-for-woocommerce'), 'type' => 'checkbox', 'label' => __('Enable', 'locship-for-woocommerce'), 'default' => 'yes'),
+            'title'         => array('title' => __('Title', 'locship-for-woocommerce'), 'type' => 'text', 'default' => __('Custom Shipping Rate', 'locship-for-woocommerce')),
+            'default_cost'  => array('title' => __('Default Cost', 'locship-for-woocommerce'), 'type' => 'price', 'default' => '66.00'),
+            'custom_rules'  => array('title' => __('Delivery Areas', 'locship-for-woocommerce'), 'type' => 'title', 'description' => __('Manage your locations and their costs below.', 'locship-for-woocommerce')),
         );
     }
 
@@ -57,7 +57,7 @@ class LOCSH_FOR_WOOCOM_Shipping_Method extends WC_Shipping_Method
                     <thead>
                         <tr>
                             <th style="width: 60%;"><?php esc_html_e('Location Name', 'locship-for-woocommerce'); ?></th>
-                            <th style="width: 30%;"><?php echo sprintf(esc_html__('Price (%s)', 'locship-for-woocommerce'), get_woocommerce_currency_symbol()); ?></th>
+                            <th style="width: 30%;"><?php echo wp_kses_post(sprintf(esc_html__('Price (%s)', 'locship-for-woocommerce'), get_woocommerce_currency_symbol())); ?></th>
                             <th style="width: 10%;"></th>
                         </tr>
                     </thead>
@@ -67,14 +67,14 @@ class LOCSH_FOR_WOOCOM_Shipping_Method extends WC_Shipping_Method
                         foreach ($rules_to_show as $rule) :
                         ?>
                             <tr class="locsh_for_woocom_rule">
-                                <td><input type="text" name="<?php echo esc_attr($field_key); ?>[location][]" value="<?php echo esc_attr($rule['location']); ?>" placeholder="e.g. Spintex" maxlength="100" required /></td>
+                                <td><input type="text" name="<?php echo esc_attr($field_key); ?>[location][]" value="<?php echo esc_attr($rule['location']); ?>" placeholder="<?php echo esc_attr__('e.g. Spintex', 'locship-for-woocommerce'); ?>" maxlength="100" required /></td>
                                 <td><input type="number" name="<?php echo esc_attr($field_key); ?>[cost][]" value="<?php echo esc_attr($rule['cost']); ?>" placeholder="0.00" step="0.01" min="0" required /></td>
                                 <td><a href="#" class="locsh-for-woocom-remove-rule">&times;</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <button class="button button-secondary locsh_for_woocom_add_rule_button">Add New Area</button>
+                <button class="button button-secondary locsh_for_woocom_add_rule_button"><?php esc_html_e('Add New Area', 'locship-for-woocommerce'); ?></button>
             </td>
         </tr>
 <?php return ob_get_clean();
@@ -126,7 +126,7 @@ class LOCSH_FOR_WOOCOM_Shipping_Method extends WC_Shipping_Method
 
     public function calculate_shipping($package = array())
     {
-        $selected_slug  = WC()->session->get('locsh_for_woocom_selected_location') ?? '';
+        $selected_slug  = WC()->session ? (WC()->session->get('locsh_for_woocom_selected_location') ?? '') : '';
         $shipping_cost  = floatval($this->get_option('default_cost', 0));
         $rate_label     = $this->title;
 
