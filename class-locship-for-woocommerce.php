@@ -57,6 +57,7 @@ class LOCSH_FOR_WOOCOM_Shipping_Method extends WC_Shipping_Method
                     <thead>
                         <tr>
                             <th style="width: 60%;"><?php esc_html_e('Location Name', 'locship-for-woocommerce'); ?></th>
+                            <?php /* translators: %s: currency symbol, e.g. $ */ ?>
                             <th style="width: 30%;"><?php echo wp_kses_post(sprintf(esc_html__('Price (%s)', 'locship-for-woocommerce'), get_woocommerce_currency_symbol())); ?></th>
                             <th style="width: 10%;"></th>
                         </tr>

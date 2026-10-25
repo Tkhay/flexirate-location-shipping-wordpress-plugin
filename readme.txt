@@ -3,7 +3,7 @@ Contributors: onetkhay
 Donate link: https://buymeacoffee.com/tiekuasare
 Tags: woocommerce, shipping, custom shipping, location-based shipping
 Requires at least: 6.9
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 1.0.4
 Requires PHP: 7.4
 WC requires at least: 9.0
@@ -131,7 +131,7 @@ Yes, the plugin uses WordPress localization functions and includes a text domain
 == Changelog ==
 
 = 1.0.4 =
-* Tested up to WordPress 7.0.
+* Tested up to WordPress 7.1.
 * Security: Posted and AJAX delivery areas are now validated against the configured areas.
 * Fix: The checkout now shows the delivery areas of the customer's own shipping zone.
 * Fix: Prevent fatal errors when the WooCommerce session is unavailable.
@@ -166,7 +166,7 @@ Yes, the plugin uses WordPress localization functions and includes a text domain
 == Upgrade Notice ==
 
 = 1.0.4 =
-Validates selected delivery areas, fixes multi-zone area lists and confirms WordPress 7.0 compatibility.
+Validates selected delivery areas, fixes multi-zone area lists and confirms WordPress 7.1 compatibility.
 
 = 1.0.0 =
 Initial release of LocShip for WooCommerce. Install to start using custom location-based shipping rates in your WooCommerce store.
